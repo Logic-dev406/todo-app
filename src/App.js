@@ -10,6 +10,10 @@ function App() {
   const [fillteredTodos, setFillteredTodos] = useState([]);
 
   useEffect(() => {
+    getLocalTodos();
+  }, [])
+
+  useEffect(() => {
     fillterHandler();
     saveLocalTodos();
   }, [todos, status])
@@ -31,10 +35,17 @@ function App() {
   }
 
   function saveLocalTodos() {
-    if (localStorage.getItem('todos') === null) {
-      localStorage.setItem('todos', JSON.stringify([]))
-    } else {
+    {
       localStorage.setItem('todos', JSON.stringify(todos))
+    }
+  }
+
+  function getLocalTodos() {
+    if (localStorage.getItem('todos') === null) {
+      localStorage.setItem('todos', JSON.stringify([]));
+    } else {
+      let todoLocal = JSON.parse(localStorage.getItem('todos'));
+      setTodos(todoLocal);
     }
   }
 
