@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import Form from './Components/Form'
 import TodoList from './Components/TodoList'
@@ -6,6 +6,38 @@ import TodoList from './Components/TodoList'
 function App() {
   const [inputText, setInputText] = useState("");
   const [todos, setTodos] = useState([]);
+  const [status, setStatus] = useState("all");
+  const [fillteredTodos, setFillteredTodos] = useState([]);
+
+  useEffect(() => {
+    fillterHandler();
+    saveLocalTodos();
+  }, [todos, status])
+
+  function fillterHandler() {
+    switch (status) {
+      case "completed":
+        setFillteredTodos(todos.filter((todo) => todo.completed === true));
+        break;
+
+      case "uncompleted":
+        setFillteredTodos(todos.filter((todo) => todo.completed === false));
+        break;
+
+      default:
+        setFillteredTodos(todos);
+        break;
+    }
+  }
+
+  function saveLocalTodos() {
+    if (localStorage.getItem('todos') === null) {
+      localStorage.setItem('todos', JSON.stringify([]))
+    } else {
+      localStorage.setItem('todos', JSON.stringify(todos))
+    }
+  }
+
   return (
     <div className="App">
       <header>
@@ -13,8 +45,14 @@ function App() {
           My Todo List
         </h1>
       </header>
-      <Form inputText={inputText} todos={todos} setTodos={setTodos} setInputText={setInputText} />
-      <TodoList />
+      <Form
+        inputText={inputText}
+        todos={todos}
+        setTodos={setTodos}
+        setInputText={setInputText}
+        setStatus={setStatus}
+      />
+      <TodoList fillteredTodos={fillteredTodos} setTodos={setTodos} todos={todos} />
     </div>
   );
 }
