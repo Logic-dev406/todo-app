@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import './App.css';
-import Form from './Components/Form'
-import TodoList from './Components/TodoList'
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Form from "./Components/Form";
+import TodoList from "./Components/TodoList";
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -11,12 +11,12 @@ function App() {
 
   useEffect(() => {
     getLocalTodos();
-  }, [])
+  }, []);
 
   useEffect(() => {
     fillterHandler();
     saveLocalTodos();
-  }, [todos, status])
+  }, [todos, status, fillterHandler]);
 
   function fillterHandler() {
     switch (status) {
@@ -36,15 +36,15 @@ function App() {
 
   function saveLocalTodos() {
     {
-      localStorage.setItem('todos', JSON.stringify(todos))
+      localStorage.setItem("todos", JSON.stringify(todos));
     }
   }
 
   function getLocalTodos() {
-    if (localStorage.getItem('todos') === null) {
-      localStorage.setItem('todos', JSON.stringify([]));
+    if (localStorage.getItem("todos") === null) {
+      localStorage.setItem("todos", JSON.stringify([]));
     } else {
-      let todoLocal = JSON.parse(localStorage.getItem('todos'));
+      let todoLocal = JSON.parse(localStorage.getItem("todos"));
       setTodos(todoLocal);
     }
   }
@@ -52,9 +52,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>
-          My Todo List
-        </h1>
+        <h1>My Todo List</h1>
       </header>
       <Form
         inputText={inputText}
@@ -63,7 +61,11 @@ function App() {
         setInputText={setInputText}
         setStatus={setStatus}
       />
-      <TodoList fillteredTodos={fillteredTodos} setTodos={setTodos} todos={todos} />
+      <TodoList
+        fillteredTodos={fillteredTodos}
+        setTodos={setTodos}
+        todos={todos}
+      />
     </div>
   );
 }
