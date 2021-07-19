@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     fillterHandler();
     saveLocalTodos();
-  }, [todos, status, fillterHandler]);
+  }, [todos, status, fillterHandler, saveLocalTodos]);
 
   function fillterHandler() {
     switch (status) {
@@ -35,9 +35,7 @@ function App() {
   }
 
   function saveLocalTodos() {
-    {
-      localStorage.setItem("todos", JSON.stringify(todos));
-    }
+    localStorage.setItem("todos", JSON.stringify(todos));
   }
 
   function getLocalTodos() {
